@@ -19,16 +19,7 @@
         <!-- Accordion -->
             <div class="medium-10 medium-centered columns">
                 <dl class="accordion">
-                    <dt>NORTH AMERICAN SALES MANAGER</dt>
-                    <dd>Facilisi appellantur et his. Ne zril aperiam definitiones eos. Vim elit illud vivendum cu, ex qui ipsum appellantur. Ei hinc hendrerit duo, an noluisse mandamus concludaturque vim, an fugit homero omnesque qui. </dd>
-                    <dt>NORTH AMERICAN SALES MANAGER</dt>
-                    <dd>Facilisi appellantur et his. Ne zril aperiam definitiones eos. Vim elit illud vivendum cu, ex qui ipsum appellantur. Ei hinc hendrerit duo, an noluisse mandamus concludaturque vim, an fugit homero omnesque qui. </dd>
-                    <dt>NORTH AMERICAN SALES MANAGER</dt>
-                    <dd>Facilisi appellantur et his. Ne zril aperiam definitiones eos. Vim elit illud vivendum cu, ex qui ipsum appellantur. Ei hinc hendrerit duo, an noluisse mandamus concludaturque vim, an fugit homero omnesque qui. </dd>
-                    <dt>NORTH AMERICAN SALES MANAGER</dt>
-                    <dd>Facilisi appellantur et his. Ne zril aperiam definitiones eos. Vim elit illud vivendum cu, ex qui ipsum appellantur. Ei hinc hendrerit duo, an noluisse mandamus concludaturque vim, an fugit homero omnesque qui. </dd>
-                    <dt>NORTH AMERICAN SALES MANAGER</dt>
-                    <dd>Facilisi appellantur et his. Ne zril aperiam definitiones eos. Vim elit illud vivendum cu, ex qui ipsum appellantur. Ei hinc hendrerit duo, an noluisse mandamus concludaturque vim, an fugit homero omnesque qui. </dd>
+                    {module_webapps render="item" id="26433" filter="all"}
                 </dl>
             </div>
         <!-- End Accordion -->
@@ -96,10 +87,10 @@
                 <h6 class="dark-green center">Apply Now</h6>
                 
                 <script type="text/javascript" src="/CatalystScripts/ValidationFunctions.js?vs=b139.r513877-phase1"></script>
-                <form name="catwebformform25705" method="post" onsubmit="return checkWholeForm25705(this)" enctype="multipart/form-data" action="http://www.solectamembranes.com/FormProcessv2.aspx?WebFormID=487083&OID={module_oid}&OTYPE={module_otype}&EID={module_eid}&CID={module_cid}">
+                <form id='form' name="catwebformform25705" method="post" onsubmit="return checkWholeForm25705(this)" enctype="multipart/form-data" action="http://www.solectamembranes.com/FormProcessv2.aspx?WebFormID=487083&OID={module_oid}&OTYPE={module_otype}&EID={module_eid}&CID={module_cid}&PageID=/careers-thank-you">
                     <div class="row">
                         <div class="medium-4 columns">
-                            <input type="text" maxlength="4000" name="CAT_Custom_785588" id="CAT_Custom_785588" class="cat_textbox" placeholder="First Name*" />                           
+                            <input id='first-name' type="text" maxlength="4000" name="CAT_Custom_785588" id="CAT_Custom_785588" class="cat_textbox" placeholder="First Name*" />                           
                         </div>
                         <div class="medium-4 columns">
                             <input type="text" maxlength="4000" name="CAT_Custom_785589" id="CAT_Custom_785589" class="cat_textbox" placeholder="Last Name*" />
@@ -122,8 +113,12 @@
                         <input type="file" name="FileAttachment2" id="FileAttachment2" class="cat_textbox" />
                     </div>
                     <div class="row column mb3">
-                        <label>Position Interested In:</label>
-                        <input checked="checked" type="checkbox" name="CAT_Custom_785591" id="CAT_Custom_785591_0" value="North American Sales Manager" /> North American Sales Manager 
+                        <label class='mb3'>Position Interested In:</label>
+<!--                        <input checked="checked" type="checkbox" name="CAT_Custom_785591" id="CAT_Custom_785591_0" value="North American Sales Manager" /> North American Sales Manager -->
+                            <ul id='parent2'>
+                            {module_webapps,26433,a,,,,true,50}
+                            </ul>
+                            
                     </div>
                     <div class="row column mb3">
                         <label>Prove you're not a robot <span class="req">*</span></label>
@@ -138,6 +133,9 @@
                         //<![CDATA[
                         var submitcount25705 = 0;function checkWholeForm25705(theForm){var why = ""; if (theForm.CAT_Custom_785588) why += isEmpty(theForm.CAT_Custom_785588.value, "First Name"); if (theForm.CAT_Custom_785589) why += isEmpty(theForm.CAT_Custom_785589.value, "Last Name"); if (theForm.EmailAddress) why += checkEmail(theForm.EmailAddress.value);   if (theForm.FileAttachment1) why += isEmpty(theForm.FileAttachment1.value, "Resume"); if (theForm['g-recaptcha-response']) why += reCaptchaV2IsInvalid(theForm, "Please prove you're not a robot"); if(why != ""){alert(why);return false;}if(submitcount25705 == 0){submitcount25705++;theForm.submit();return false;}else{alert("Form submission is in progress.");return false;}}
                         //]]>
+                        var job = "{module_url,job}"; 
+                        $('input:checkbox[value="' + job + '"]').attr('checked','checked');
+                        
                     </script>
                 </form>
             </div>
@@ -145,5 +143,35 @@
         <!-- End Form Area -->
 
     </body>
+    
+    <script>
+        $(document).ready(function(){
+            //set unique data-id for buttons and checkboxes
+            var $buttonData = $("#parent1 a");
+            $buttonData.attr('data-id', function (index) {
+                return 'job' + index;
+            });
+            var $checkBoxData = $("#parent2 input");
+            $checkBoxData.attr('data-id', function (index) {
+                return 'job' + index;
+            });
+            //end unique ID
+            //start click event
+            $(document).on('click', 'a[class^="button"]', function() {
+                var id = $(this).data('id')
+                $(`input[data-id=${id}]`).prop('checked', true)
+            });        
+            //end click event
+            //start smooth scroll
+            $('a[href="#form"]').click(function(e){
+                e.preventDefault();           
+                $('html, body').animate({scrollTop: $("#form").offset().top -150}, 1000, function(){
+                    $('input#first-name').focus();    
+                }); 
+            });
+            //end smooth scroll 
+        }); 
+
+    </script>
 
 </html>
